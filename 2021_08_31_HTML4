@@ -1,0 +1,170 @@
+2021/08/31 <공부 내용>
+- 학습진도표에 따른 제로베이스 인강을 듣고 간단한 내용 정리
+- 기존에 듣던 react 인강을 듣고, 예제 코딩 연습
+공부한 codesandbox 링크: https://codesandbox.io/s/2021-08-31-studing-forked-ki7eo
+
+[실습 예제 코드]
+
+class ObjectUtilities {
+  static mergeObjects = (objA, objB) => ({ ...objA, ...objB });
+  static removePassword = (user) => {
+    const copy_obj = { ...user };
+    delete copy_obj.password;
+    return copy_obj;
+  };
+
+  static freezeObj = (user) => Object.freeze(user);
+  static getOnlyValues = (user) => Object.values(user);
+  static getOnlyProperties = (user) => Object.keys(user);
+}
+
+const objA = {
+  name: "suyun",
+  favFood: "teokpokki"
+};
+
+const objB = {
+  password: "12345"
+};
+
+const user = ObjectUtilities.mergeObjects(objA, objB);
+console.log(user);
+
+const cleanUser = ObjectUtilities.removePassword(user);
+console.log(cleanUser);
+
+const frozenUser = ObjectUtilities.freezeObj(cleanUser);
+
+const onlyValues = ObjectUtilities.getOnlyValues(frozenUser);
+console.log(onlyValues);
+
+const onlyProperties = ObjectUtilities.getOnlyProperties(frozenUser);
+console.log(onlyProperties);
+
+frozenUser.name = "Hello!"; // Showing error
+
+
+
+[텍스트 요소]
+1. 제목: HTML 구획 제목 요소	
+- h1~h6까지 6단계 존재
+- 웹 브라우저가 제목의 정보를 통해 자동으로 목차를 생성할 수 있다.
+- 언제나 h1부터 시작하고, 순서를 섞어 쓰는 것은 비추천(h2 다음에 h4 사용 x)
+- 글씨 크기를 위해 제목 태그 사용하지 말기 => CSS의 font-size를 사용하기 
+
+2. 본문 - p 태그
+- 하나의 문단을 표시 => html에서의 문단은 서로 관련있는 콘텐츠끼리의 묶음(이미지, 입력 폼 등)
+- 블록 레벨 요소
+- p 태그 안에서 줄바꿈(enter)을 해도, 적용되지 않는다 + 스페이스바를 여러 번 사용해도 한번으로 적용됨
+* lorem: 의미 없는 긴 문장으로, html에서 의미 있는 텍스트를 넣기 전에 텍스트가 있다면 어떤 느낌인지 보고 싶을 때 사용할 수 있다.
+** alt + shift +방향키: 쉽게 이동 가능
+- 문단 들여쓰기 등은 CSS를 통해 바꿀 수 있다.
+- P 태그 사용 시, 다음 P 태그 사이에 줄 바꿈이 자동으로 생성되는데, 이 여백을 위해 아무것도 없는 P 태그를 사용하지 말기
+
+3. 본문 – br 태그
+- 텍스트 안에 줄 바꿈을 생성하는 태그 => enter와 같은 기능
+- 내용을 갖지 않는 빈 요소 ex) <br> or <br / > 이렇게 두 가지 방법으로 사용 가능
+- 문장 사이의 공백을 위해 br 태그를 많이 사용x -> CSS margin을 이용해 여백 넣기
+
+4. 본문 – blockquote, q 태그
+- blockquote: 인용 블록 요소
+  - 안쪽 텍스트가 긴 인용문인 경우 사용
+  - p 태그와 다르게 양쪽에 여백이 존재
+  - blockquote 안에 p 태그는 사용 가능하지만, 반대의 경우는 사용 불가 => p 태그 안에 다른 블록 요소가 있으면 자동으로 p 태그가 닫히게 되기 때문
+
+- q: 인라인 인용문 요소
+  - 텍스트가 짧은 인용문인 경우 사용
+  - 쌍따옴표가 자동으로 생성됨
+  - p 태그 안에 q 태그 사용 가능
+
+- cite 속성: blocquote, q 태그 둘 다 사용 가능, 인용문의 출처를 가리키는 URL
+
+5. 본문 – pre 태그
+- 미리 서식을 지정한 텍스트
+- html에 작성한 내용 그대로 결과물로 표현된다. 
+  -> 원래 html에서는 스페이스 바를 여러 번 사용해도 한 번으로 처리되지만 pre 태그 내에서는 그대로 반영이 된다. (하나의 이미지처럼 출력이 된다.)
+- 고정폭 글꼴 사용 => 보통 코드에 사용되는 것
+ex) AAAAA / IIIII => 원래는 A 5개를 사용한 길이와 I를 5개 사용한 길이가 다른데, 고정폭 글꼴은 I 5개를 사용해도 A 5개 사용한 길이와 똑같이 맞춰준다.
+
+6. 본문 – figure, figcaption 태그
+- figure 태그: 독립적인 콘텐츠를 표현
+ex) 이미지, pre 태그를 이용한 코드 조각, 표, 인용구 등을 묶어서 사용 + figcaption 태그를 이용해 설명을 붙일 수 있다.
+
+7. 본문 – hr 태그
+- 가로줄을 그을 때 사용(단독으로 문단을 나눌 때 사용)
+- 빈 요소: <hr> or <hr />
+- 원래는 hr 태그에 속성을 이용해서 스타일을 넣을 수 있었는데, 현재 추천하지 않는 방법 => 대신 CSS를 이용해서 스타일 추가하기 
+
+8. 본문- abbr, address, cite, bdo
+- abbr: 이니셜을 작성해 놓고, 원래의 의미를 작성할 때 사용, 이때 약어에 마우스를 올려 놓으면 의미를 확인할 수 있다. (title 속성 사용)
+- address: 메일, sns 주소, 오프라인 주소 등을 통칭해서 사용
+- cite: 인용의 출처를 나타낼 때 사용, 속성으로서의 cite도 존재하지만, 이 태그를 사용 시 최종적인 출처가 눈에 보이도록 할 때 사용
+- bdo: 텍스트를 반대 방향으로 바꿀 때 사용, dir 속성을 사용(ltr or rtl(right to left)) 
+
+9. 포매팅- b, strong
+- b 태그: 글씨를 굵게 표시
+  -> 요약의 키워드, 리뷰의 제품명 => 특별히 중요성을 가지고 있지는 않지만 굵게 표시할 부분에 사용
+- strong 태그: 높은 중요도 요소!
+  -> 중대하거나 긴급한 콘텐츠
+=> 두 가지 태그 다 동일하게 글씨가 굵게 보인다.
+
+10. 포매팅- i, em
+- 둘 다 기울임 꼴로 
+- i 태그: 기술용어, 외국어 구절 등 주위와 구분해야 하는 부분
+- em 태그: 텍스트를 강조할 때 사용, em 중첩 시 더 큰 강세를 의미한다.
+11. 포매팅- mark, small, sub, sup
+- mark: 하이라이트한 부분(강조)
+** mark와 strong의 차이점: mark는 텍스트에서 연관성을 가진 부분을, strong은 중요도를 가진 부분을 표시할 때 사용
+- small: 덧붙이는 글 요소 -> 저작권, 법률 표기 등 작은 텍스트
+- sub: 아래 첨자 요소 -> 화학식 or 각주, 수식 표기 등에 사용
+- sup: 위첨자 요소 -> 지수의 거듭제곱을 표시할 때 사용
+
+12. 포매팅- del, ins, code, kdb
+- del: 문서에서 제거된 텍스트의 범위를 나타낸다. (취소선)
+- ins: 추가된 부분의 범위를 나타낸다. (밑줄)
+- code: 짧은 코드 조각(보통 한 줄)을 나타낼 때 사용. (인라인 요소) 
+ => <pre>는 개행과 스페이스 바를 그대로 보여주고, 고정폭 글꼴을 사용해 여러 줄의 코드를 표현할 때 좋음 (블록요소)
+- kdb: 키보드 입력 요소, Ctrl, Shift 등 키보드 입력값을 나타낼 때 사용
+
+13. a 태그와 하이퍼링크 1
+- href 속성을 이용해 다른 페이지나 같은 페이지의 어느 위치, 파일 등 다른 URL로 연결할 수 있는 하이퍼링크를 만든다. => 하이퍼링크는 텍스트 이외의 이미지 등에도 연결 가능.
+
+절대 경로: 현재의 위치와 관련이 없이 항상 절대 위치로 이동
+상대 경로: 현재의 위치를 기준으로 이동할 파일이 어디 있는지를 입력 
+ex) project 폴더 안에 another, index 파일이 있고, another 안에 a.html 파일이 있을 때 
+another/a.html -> 현재 index 일 때, 같은 폴더 안 another의 a.html로 이동하라는 의미
+
+- 웹 페이지 이외에 이메일이나 전화도 가능하다.
+ex) mailto: 이메일 주소, tel: 전화번호 형식으로 사용 가능
+
+14. a 태그와 하이퍼링크 2
+- target 속성: 목적지를 어디에 띄울 것인지 결정할 수 있다.
+  - _self: 기본값, 현재의 창에서 열린다(현재 창이 바뀜)
+  - _blank: 새로운 탭에 표시(새 창에 열리도록 설정할 수도 있음)
+
+15. 엔티티
+- <, >, “, &등의 특수 문자를 텍스트에 표현하고 싶을 때 사용(이 문자들은 html의 예약어 이기 때문에 텍스트에 직접 표현이 불가능하다.)
+
+        <                   &lt;  (less than)
+        >                   &gt;  (great than)
+        “                   &quot;  
+        ‘                   &apos;
+        &                   &amp;
+   스페이스 바 공백          &nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
