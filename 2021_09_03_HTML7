@@ -1,0 +1,303 @@
+[오늘 공부 내용]
+1. 제로베이스 인강을 듣고 내용 정리
+2. code sandbox에서 실습 따라해 보기
+code sandbox 링크: 
+https://codesandbox.io/s/2021-09-03-html7-upgzv?file=/index.html
+
+[폼 관련 요소]
+1. form  소개
+- 사용자에게 정보를 입력할 수 있는 장치 제공 -> 정보를 입력하면 다른 웹페이지, 서버 등에 정보를 전달 => 대화형 컨트롤
+ex) 회원가입, 설문지 등
+
+2. form- action, method 속성
+- form 태그는 그 자체로 요소가 아니기 때문에 단독으로 사용하면 화면에 아무것도 보이지 않음 -> 내부에 요소를 넣어줘야 한다(form은 그것들을 하나로 묶어주는 역할)
+- action 속성: 양식 데이터를 처리할 프로그램의 url -> 데이터를 전송 할 최종 목적지 
+  =>다른 페이지, 서버의 주소
+- method 속성: get/post/dialog 
+  - get: 보내려고자 하는 주소 뒤에 어떤 데이터를 보내는지주소 뒤에 붙여서 보냄 -> 보안이 중요한 정보는 get 방법을 사용x (검색 등 간단한 것에 사용한다.)
+  - post: 양식 데이터를 요청 본문으로 전송(주소 뒤에 드러나지 않음, 서버가 보지 못하게 숨겨서 전송) => 대부분 post 사용
+
+3. label, input
+- 사용자가 정보를 입력하는 부분 -> input 영역
+- 사용자가 어떤 정보를 입력해야 하는지 설명하는 부분 -> label 영역
+ex) E- mail: [input] -> 왼쪽이 label 부분
+  - label과 input은 한 세트처럼 다닌다. -> label이 짝인 input을 찾을 때 id로 찾음
+   => name(하나의 form에서 구분을 위해 사용),와 id(라벨링을 위한 요소)는 같지 않아도 된다.
+   => name은 한 form 안에서만 안겹치면 되고, id는 한 파일 내에서 겹치면 안된다.
+  - label의 자식 요소로 input을 사용하면 label의 for속성을 사용하지 않아도 된다.
+
+** label이랑 input을 형제 요소로 사용하려면 for 속성을 이용해 id를 연결해줘야 한다(필수!!)
+-> 아니면 label의 자식 요소로 input을 넣어주면 된다.
+
+** label에는 text를 넣는 것이 웹 접근성 측면에서 좋음(이미지 같은 것을 삽입하게 되면 스크린 리더 같은 것들이 제대로 읽을 수 없다.)
+
+<실습>
+<form action =""method ="GET">
+  <div >
+    <label for ="foodname">음식 이름: </label >
+    <input type ="text" name ="food" id ="foodname" />
+  </div >
+
+  <div >
+    <label >
+      색깔:
+      <input type ="text"name ="color" />
+    </label >
+  </div >
+  <button type ="submit">제출 </button >
+</form >
+
+
+4. fieldset, legend
+- fieldset: 여러 컨트롤과 lable을 묶을 때 사용
+ex) 설문조사에서 여러 input들이 있는데, 객관식, 주관식으로 나누어져 있는데 이것들을 묶는 역할 -> 단순히 묶기만 한다면 div로 해도 되지만 역할을 하는 묶음이기 때문에 fieldset, legend로 묶어준다.
+
+- legend: 범례 => 부모 요소인 fieldset 콘텐츠의 설명(제목)
+  - fieldset 요소의 첫 번째 자식이여야 한다.
+
+- 장점: input을 disabled(사용x)하고 싶을 때, 하나하나 제어하지 않고 fieldset에 disabled 해주면 포함된 모든 input이 사용 불가해진다.
+<실습>
+<h2 >fieldset/legend 실습 </h2 >
+  <form action =""method ="GET">
+  
+  <fieldset >
+    <legend >범례 1 </legend >
+    <div >
+      <label for ="foodname">음식 이름: </label >
+      <input type ="text"name ="food"id ="foodname" />
+    </div >
+    
+    <div >
+      <label for ="color">색깔:</label >
+      <input type ="text"name ="color"id ="color" />
+    </div >
+  </fieldset >
+
+  <fieldset >
+    <legend >범례 2 </legend >
+    
+    <div >
+      <label for ="foodname">음식 이름: </label >
+      <input type ="text"name ="food"id ="foodname" />
+    </div >
+    
+    <div >
+      <label for ="color">색깔:</label >
+       <input type ="text"name ="color"id ="color" />
+    </div >
+  </fieldset >
+  <button type ="submit">제출 </button >
+</form >
+
+5. input- type 속성 1
+  1) input type=“text” 에서만 사용할 수 있는 속성: minlength, maxlength(최대, 최소 길이)
+  2) input type=“password”: minlength, maxlength 사용 가능, 입력한 텍스트가 *표시 된다.
+  3) input type=“email” : 알아서 이메일 형식인지 판단해 준다.(유효성 검사 o)
+  4) input type=“tel”: 유효성 검사를 하지는 않는다.(한글도 입력 o)
+
+<실습>
+<h2 >input 실습 1 </h2 >
+  <form action =""method ="GET">
+  
+  <div >
+    <label >
+       TEXT:
+    <input type ="text"name ="text"minlength ="5"maxlength ="10" />
+    </label >
+  </div >
+
+  <div >
+    <label >
+      PASSWORD:
+      <input type ="password"name ="pwd"minlength ="5"maxlength ="10" />
+    </label >
+   </div >
+   
+  <div >
+    <label >
+      EMAIL:
+      <input type ="email"name ="email" />
+    </label >
+  </div >
+  
+  <div >
+    <label >
+     TEL:
+     <input type ="tel"name ="tel" />
+    </label >
+  </div >
+  <button type ="submit">제출 </button >
+</form >
+ 
+
+6. input- type 속성 2
+  1) input type=“number”: 숫자만 입력 가능(e도 입력은 되지만 제출시 오류 발생), 증가/감소 시킬 수 있음
+  2) input type=“range”: 슬라이드 바 생성(가장 낮을 때는 0, 가장 높을 때는 100을 의미(기본값에서!))
+  3) date 속성: 년/월/일 지정가능
+  4) month: 년/월 지정 가능  
+  5) week:년/~째 주 입력 가능
+  6) time: 시간 입력 가능
+
+<실습>
+<h2 >input 실습 2 </h2 >
+  <form action =""method ="GET">
+  <div >
+    <label >
+       NUMBER:
+      <input type ="number"name ="number" />
+    </label >
+   </div >
+  
+  <div >
+    <label >
+      RANGE:
+      <input type ="range"name ="range" />
+    </label >
+   </div >
+   
+  <div >
+    <label >
+       DATE:
+      <input type ="date"name ="date" />
+    </label >
+   </div >
+   
+  <div >
+    <label >
+       MONTH:
+      <input type ="month"name ="month" />
+    </label >
+  </div >
+  
+  <div >
+    <label >
+       WEEK:
+      <input type ="week"name ="week" />
+    </label >
+  </div >
+
+  <div >
+    <label >
+      TIME:
+      <input type ="time"name ="time" />
+    </label >
+  </div >
+  <button type ="submit">제출 </button >
+</form >
+
+
+7. input- type 속성 3
+  1) input type=“submit” value=“제출하기”: 이렇게 하면 button 태그와 동일하게 사용가능하다. 
+    - value값을 이용해 버튼의 내용을 바꿀 수 있다. 기본값은 “제출”
+  2) input type=“button” value=“버튼”: 이렇게도 버튼을 만들 수 있지만, 이렇게 만들면 value 값을 넣지 않으면 아무것도 안 쓰여진 버튼을 생성
+  -> 버튼 클릭 시 기능을 따로 javascript로 구현해야 한다. => 형태만 구현
+  3) input type=“reset”: 기본으로 “초기화”라고 쓰여진 버튼 생성, value 값으로 버튼 내용을 바꿀 수 있다. -> form 내부의 모든 input 값을 기본값으로 변경한다.
+  4) input type=“checkbox”: 제출할 때 checkbox의 name=on이라는 값으로 보내진다. (중복 선택 가능)
+   - 기본값으로 체크 되 있기를 원하면 속성에 checked 라고 써주면 된다.
+  5) input type=“radio”: 원래는 중복 선택이 안된다.
+   -> radio 속성도 on으로 보내지게 되는데, 아래처럼 name이 같은데 여러개인 경우 누가 on인지 모르게 된다. 
+   => 이때는 value 값을 다르게 해서 구분할 수 있다. (radio의 name = value 이런 식으로 보내지게 된다.)
+   - checkbox와 동일하게 checked 속성 사용 가능(boolean 값이여서 쓰기만 하면 된다.)
+
+ ex1) 
+<label >
+  RADIO:
+  <input type ="radio" name ="radio1" />
+  <input type ="radio" name ="radio2" />
+  <input type ="radio" name ="radio3" />
+</label >
+-> 이렇게 하면 다 다른 input이 되기 때문에 중복 선택이 가능해 진다.
+-> 중복이 안되도록 하려면 name을 동일하게 해야한다.
+
+<실습>
+<h2 >input 실습 3 </h2 >
+  <form action =""method ="GET">
+  <div >
+    <label >
+       CHECKBOX:
+      <input type ="checkbox" name ="check1" checked />
+      <input type ="checkbox" name ="check2" />
+      <input type ="checkbox" name ="check3" />
+    </label >
+  </div >
+
+  <div >
+    <label >
+      RADIO:
+      <input type ="radio" name ="radiobutton" value ="r1" />
+      <input type ="radio" name ="radiobutton" value ="r2" />
+      <input type ="radio" name ="radiobutton" value ="r3" />
+    </label >
+  </div >
+  <input type ="reset" />
+  <input type ="submit" value ="제출하기!!" />
+  <input type ="button" value ="빈 버튼" />
+</form >
+
+8. input- list속성과 datalist
+ 1) datalist: 단독으로 사용되지는 않고, list 속성과 같이 사용된다.
+  - 다른 컨트롤에서 고를 수 있는 선택지를 나타내는 option과 같이 사용된다. => 자식 요소로 option을 많이 갖을 수 있다.
+  - label은 input의 id와 연결 되듯이, list 속성과 datalist의 id가 연결된다.
+  - select 요소와 비슷한데, select는 선택한 요소의 값을 수정할 수 없고, 무조건 그 중에서 하나만 골라야한다.
+  - datalist는 기본적으로 input type이 text이기 때문에 값을 입력할 수 있고, 대신 추천을 하겠다는 의미(입력도 되고, 선택도 되고)
+   => 수정이 안되도록 하려면 select/ 수정 가능하고 추천만 하려면 datalist 사용하기
+
+<실습>
+<h2 >input 실습 4 </h2 >
+  <form action ="" method ="GET">
+  <label for ="movie">
+    좋아하는 영화:
+  </label >
+  <input type ="text" name ="movies" id ="movie" list ="movie-list" />
+  <datalist id ="movie-list">
+    <option >싱크홀 </option >
+    <option >인질 </option >
+    <option >미션 임파서블 1 </option >
+    <option >미션 임파서블 2 </option >
+    <option >미션 임파서블 3 </option >
+  </datalist >
+  <input type ="submit" />
+</form >
+
+   
+[전역 속성]
+- 어느 태그에서나 사용할 수 있는 속성
+1. lang 
+- 언어 태그 구문
+- head의 meta 태그 중 charset에서 모든 언어를 알아들을 수 있는 UTF-8을 명시했던 것과 비슷 => 얘는 컴퓨터가 이해할 수 있는 언어를 명시하는 것
+- lang 속성은 진짜로 컨텐츠를 읽는 사용자가 영어로 읽고 있는지, 한국어로 읽고 있는지를 명시하는 속성  
+
+=> html 태그에 lang=“en”으로 자동으로 들어가 있다. => but 우리가 보는 웹은 한국어로 되어있기 때문에 lang=“ko”로 바꾸어 줘야 한다.
+=> 이것은 웹 접근성을 높이기 위한 수단으로, 전체적으로 어떤 언어로 되어있는지 명시해 줘야 한다.
++ 일부 부분이 영어로 되어있다면 그 곳에 알맞은 lang 속성을 추가해 주는 것이 좋다.
++ 부모 속성에 lang 속성이 들어가면 상속되기 때문에 자식 속성들도 동일한 lang 속성을 부여받는다.
+
+2. data
+- 사용법: data-* (*에 사용자가 데이터 속성의 이름을 정의할 수 있다.)
+ex) data-parent=“cars” => 여기서 parent는 사용자가 정의한 속성이다.(실제로는 없는 속성)
+
+<article
+id ="electriccars"
+data-colums ="3"
+data-index-number ="12314"
+data-parent ="cars"
+ >
+ ...
+</article >
+- 자바스크립트가 article 내부의 요소에 일일이 접근해서 해석할 수 없다. 그래서 사람들의 눈에는 보이지 않지만 자바스크립트가 내부의 정보들을 읽어서 이해하도록 하고 싶을 때 사용
+-> 자바스크립트가 article의 colums 개수, index-number를 알 수 있다.
+
+3. draggable
+- 드래그가 가능한지 불가능한지를 명시하는 속성
+- true/false의 값을 넣어야 한다. -> 요소에 따라 기본값이 true일 수도, false 일 수도 있기 때문.
+ex) 
+<img src ="images/300.png" draggable ="false" />
+
+- 이 속성이 필요한 이유: 자바스크립트와 관련(드래그와 관련된 함수를 정의할 때 사용될 예정)
+
+4. hidden
+- 해당 요소가 더 이상 관련 없음을 나타내는 특성
+ -> 이 속성을 사용하면 웹에서도, 스크린 리더에서도 사라지게 된다.
+ -> 단순히 시각적으로 차단하려는 목적으로 사용 할 수 있지만. 보안상의 이유로 가리려고 하면 안된다. => 개발자 도구를 통해 hidden 요소를 볼 수 있기 때문!!
+- CSS의 display: flex;를 이용하면 hidden이여도 볼 수 있다.
+- boolean 속성: 작성 하면 true, 작성하지 않으면 false
