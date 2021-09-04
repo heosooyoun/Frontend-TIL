@@ -1,0 +1,221 @@
+[오늘 공부한 내용]
+1. 구글 클래스룸에 올라와 있는 HTML 연습문제 풀기
+2. 연습문제를 풀다가 기억 안나는 부분이 있어서 INPUT 내용 인강으로 복습
+3. 인강을 들을 때, 어제 적어 놓은 메모를 참고 했고, 메모르 생략한 부분 채워넣기
+
+HTML 문제풀이 CODE SANDBOX 링크: https://codesandbox.io/s/html-yeonseubmunje-w3l3o?file=/index.html
+
+<문제 1번>
+    <h1>다람쥐 헌 쳇바퀴에 타고파</h1>
+    <h2>다람쥐 헌 쳇바퀴에 타고파</h2>
+    <h3>다람쥐 헌 쳇바퀴에 타고파</h3>
+    <h4>다람쥐 헌 쳇바퀴에 타고파</h4>
+    <h5>다람쥐 헌 쳇바퀴에 타고파</h5>
+    <h6>다람쥐 헌 쳇바퀴에 타고파</h6> 
+    
+<문제 2번>    
+
+  <ul>
+      <li>사과</li>
+      <li>오렌지</li>
+      <li>포도</li>
+      <li>체리</li>
+    </ul>
+
+    <ol>
+      <li>가지</li>
+      <li>감자</li>
+      <li>당근</li>
+      <li>대파</li>
+    </ol>
+    
+<문제 4번>
+<table>
+      <caption>
+        주식회사 HTML 매출
+      </caption>
+      <thead>
+        <tr>
+          <th rowspan="2">/</th>
+          <th colspan="2">반기</th>
+          <th rowspan="2">합계</th>
+          <th rowspan="2">비고</th>
+        </tr>
+
+        <tr>
+          <th>전반기</th>
+          <th>후반기</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <th>2019</th>
+          <td>10억</td>
+          <td>20억</td>
+          <td>30억</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>2020</th>
+          <td>22억</td>
+          <td>33억</td>
+          <td>55억</td>
+          <td rowspan="2">1)</td>
+        </tr>
+        <tr>
+          <th>2021</th>
+          <td colspan="2">집계중</td>
+          <td>집계중</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    
+[인강 내용 정리]
+1. input- name, placeholder, autocomplete, required 
+- input의 속성은 type에 따라 특정 타입에만 사용되는 속성도 있고, 모든 곳에서 사용되는 속성도 있다.
+ 1) name 속성: 전체 form 데이터에서 해당 필드가 어떤 데이터를 가지고 있는지 구별하는 역할
+  - input 마다 name을 넣어줘야 어떤 데이터인지 구분 가능(get 방식에서 주소창에 어떤 정보가 보내지는지 볼 수 있는데 그때 보이는 데이터 정보가 name)
+
+ 2) placeholder: 입력하는 사람에게 제공하는 힌트 
+  - 아무 값도 적혀 있지 않을 때 어떤 것을 입력하면 좋을지 힌트를 주는 것 => 데이터가 입력이 되면 보이지 않게 된다.
+
+ 3) autocomplete: 이전에 입력했던 것들을 후보 값으로 보여준다.(이전 입력 기록을 볼 수 있고, 선택도 가능=> 자동완성 기능과 같음)
+  - on/ off로 속성값을 넣어야 한다.
+
+ 4) required: 입력값이 무조건 있어야 하는 경우 사용 
+  - boolean 속성
+  - required를 사용하고 아무 값도 입력하지 않고 제출하게 되면, 오류 창이 생기고 제출이 안된다.
+
+<실습>
+<form action =""method ="GET">
+<div >
+<label for ="username">이름: </label >
+<input
+type ="text"
+name ="username"
+id ="username"
+placeholder ="홍길동"
+autocomplete ="on"
+ />
+</div >
+<div >
+<label for ="job">직업: </label >
+<input type ="text"name ="job"id ="job"placeholder ="ex) 교사" />
+</div >
+<div >
+<label for ="age">나이: </label >
+<input type ="number"name ="age"id ="age"placeholder ="10" />
+</div >
+<input type ="reset" />
+<input type ="submit" />
+</form >
+
+2. input- disabled, readonly
+ 1) disabled 속성
+  - boolean 속성
+  - disabled가 없고, 그냥 값을 넣지 않으면-> 이름은 있지만 값을 아무것도 보내지 않는다.
+  - disabled가 있으면 입력이 아예 안되고, 아예 값도 존재하지 않는 것으로 나온다.
+   => 필드 자체가 form 전송에 포함이 되지 않는다.
+  - 사용하는 이유: javascript를 이용해 이 특성을 넣었다가 뺏다가 할 수 있는데, 이를 이용해서 특정 필드를 입력하면 어떤 필드를 입력하지 못하도록 할 때 사용
+ 
+ 2) readonly
+  - boolean 속성
+  - 포커싱은 되지만 입력할 때처럼 커서가 깜빡이는 것은 없어진다.
+  - input의 값을 value 속성을 이용해 미리 지정을 해놓고, readonly를 사용하면 보이긴 하지만 수정할 수 없다.
+  - disabled와 차이점은 readonly는 수정만 안되고, 데이터는 제출하면 전송이 된다.
+   => value를 지정하지 않으면 아무 값도 가지 않는다(value값을 지정하면 특정 값을 전송 가능)
+
+<실습>
+<div >
+<label for ="job">직업: </label >
+<input
+type ="text"
+name ="job"
+id ="job"
+placeholder ="ex) 교사"
+disabled
+ />
+</div >
+<div >
+<label for ="age">나이: </label >
+<input type ="number"name ="age"id ="age"value ="20"readonly />
+</div >
+
+3. input- step, min, max
+- 숫자에 관련된 속성
+ 1) min/max 속성
+  - 숫자를 입력할 때 최솟값, 최댓값을 지정
+  - 알아서 유효성검사를 해준다(최소/최댓값을 지나치면 오류 출력)
+  - minlength/maxlength는 문자열의 최소, 최댓값을 지정
+
+ 2) step 속성
+  - input 타입 number에서 오른쪽에 화살표를 누르면 기본적으로 +1/-1이 되는데 step 속성을 이를 바꿔준다.
+  ex) step=“3” 이렇게 하면 +3/-3씩 된다.
+  - min값을 지정하면 그 min값부터 시작이 된다.
+  ex) min=“-10” 이라면 처음 위에 화살표를 클릭하면 2가 뜨게 된다.
+   -10 => -7 => -4 => -1 => 2 
+
+=> 두 속성 모두 range에서도 사용 가능!
+- range는 기본적으로 0점 시작, 100점이 끝인데, min/max값 지정시 각각 시작점, 끝점이 된다.
+
+<실습>
+<div >
+<label for ="score">평점: </label >
+<input
+type ="number"
+name ="score1"
+id ="score"
+min ="-10"
+max ="10"
+step ="3"
+ />
+</div >
+<div >
+<label for ="range1">범위: </label >
+<input
+type ="range"
+name ="range1"
+id ="range1"
+min ="-10"
+max ="10"
+step ="3"
+ />
+</div >
+
+4. button 
+- 클릭 가능한 버튼을 생성
+- input으로도 버튼을 생성할 수 있다. => type을 submit, reset, button 등으로 설정
+- type: submit/reset/button
+  => button 태그의 button 속성: 기본 행동이 없으며 클릭했을 때 아무것도 하지 않는다. 자바스크립트와 연결해 눌렀을 때 행동을 정의할 수 있다.
+  => 이 속성을 굳이 사용하는 이유는 ui/접근성 측면에서 바로 버튼이라는 것을 알 수 있다.
+   스크린 리더가 버튼이라고 바로 이야기 하기 때문에 인지하기 쉽다.
+- input 타입과 다른 점
+  input의 reset, submit은 value 값을 넣지 않아도 버튼 내용으로 초기화/제출이라고 들어가 있다. 
+ => button은 따로 내용을 입력하지 않으면 아무것도 들어가 있지 않은 버튼이 만들어진다.
+
+  input은 빈 요소(닫을 수 없음), button은 열고 닫는 태그가 있어서 자식 요소를 갖을 수 있다.(button 태그 안에 text를 넣으면 버튼 내용으로 들어간다.)
+   - value값으로 넣는 것과 자식 요소로 넣는 것의 차이점은 value는 문자열 밖에 안된다.(텍스트만 된다.)
+   - 자식 요소의 경우는 strong(굵은 글씨)과 같은 태그를 넣을 수 있다. => 내부에 이미지 등을 추가해서 넣을 수 있다.
+  => 내부 스타일링이 더 다양하다!!
+** button을 아이콘/이미지만으로 만드는 것은 지양(접근성 측면 때문에)
+=> 스크린 리더가 아이콘이나 이미지만으로는 어떤 버튼인지 파악이 어렵기 때문(텍스트도 같이 사용하기)
+
+<실습>
+<form action =""method ="GET">
+<div >
+<input type ="reset" />
+<input type ="submit" />
+<input type ="button"value ="빈 버튼" />
+</div >
+<div >
+<button type ="reset">
+<strong > 초기화!!!</strong >
+</button >
+<button type ="submit">
+ 😀😀
+</button >
+<button type ="button">일반 버튼 </button >
+</div >
+</form >
