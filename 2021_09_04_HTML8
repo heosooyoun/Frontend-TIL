@@ -31,6 +31,16 @@ HTML 문제풀이 CODE SANDBOX 링크: https://codesandbox.io/s/html-yeonseubmun
       <li>대파</li>
     </ol>
     
+<문제 3번>
+  <label for="PWD">비밀번호: </label>
+  <input
+     type="password"
+     name="pwd"
+     id="PWD"
+     minlength="6"
+     maxlength="20"
+     placeholder="비밀번호를 입력해주세요" />
+    
 <문제 4번>
 <table>
       <caption>
@@ -73,6 +83,18 @@ HTML 문제풀이 CODE SANDBOX 링크: https://codesandbox.io/s/html-yeonseubmun
       </tbody>
     </table>
     
+<문제 5번>
+    <p>
+      <i>&#8747;</i>
+      <sub>0</sub>
+      <sup><var>t</var></sup>
+      2
+      <sup>5</sup>
+      x
+      <i>log</i>
+      <sub>2</sub>
+      x
+    </p>
     
 [인강 내용 정리]
 1. input- name, placeholder, autocomplete, required 
