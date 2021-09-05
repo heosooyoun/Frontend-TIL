@@ -1,0 +1,152 @@
+<오늘 공부한 것>
+- 자바스크립트 조건문/반복문/getter/setter 공부와 실습
+- react 인강 듣고 실습
+
+react 실습한 code sandbox 링크 
+<실습 1 링크>
+https://codesandbox.io/s/2021-09-05-reactjs-djup0?file=/src/index.js:0-466
+<실습 2 링크>
+https://codesandbox.io/s/2021-09-05-reactjs-9ie39?file=/src/index.js
+
+
+[자바스크립트]
+1. 조건문
+- 거짓인 경우: false, null, 0, undefined, Nan
+- 참인 경우: true, 값이 있는 숫자나 문자열, {}, [] 등
+
+2. 반복문
+
+  2.1 for of
+    - iterable한 객체에 사용 ex) 배열
+  
+  2.2 for in  03/22
+    - 모든 property에서 사용 가능
+
+<실습>
+for (const  i  of  [1 , 2 , 3 ]){
+    console .log (i );
+}
+
+Object .prototype .test  = function () {};
+for (const  i  in  {a :1 , b :2 , c :3 }){
+    console .log (i );
+}
+
+
+3. getter와 setter
+
+const dog ={
+   name :"멍멍이",
+
+  get name (){
+    console .log ('_name을 조회합니다..');
+    return this ._name ;
+  },
+
+  set name (value) {
+    console .log ('이름이 바뀝니다...'+ value);
+    this ._name = value;
+  }
+};
+
+console .log (dog .name );
+dog .name ='뭉뭉이';
+console .log (dog .name );
+
+
+- getter 함수는 우리가 어떤 값을 조회할 때마다 함수를 호출하는 것, setter 함수는 우리가 어떤 값을 변경할 때마다 호출되는 함수이다.
+4/1
+
+const numbers ={
+  a :1 ,
+  b :2 ,
+  sum :3 ,
+  
+  calculate () {
+    console .log ("calculate 실행");
+    this.sum =this .a +this .b ;
+  },
+
+  get a () {
+    console.log ("get a 실행");
+    return this.a ;
+  },
+  
+  get b () {
+    console.log ("get b 실행");
+    return this.b ;
+  },
+  
+  set a (value) {
+    console.log ("set a 실행");
+    this.a = value;
+    this.calculate ();
+  },
+
+  set b (value) {
+    console.log ("set b 실행");
+    this.b = value;
+    this.calculate ();
+  }
+};
+console.log (numbers .sum );
+numbers.a =5 ;
+console.log (numbers .sum );
+
+----------------------------------------------------------------------
+
+[ReactJS]
+- 리엑트에서 함수를 배웠고, addEventListener를 이용해 마우스를 이용한 여러 이벤트를 처리해 보았다.
+
+<실습 1>
+import "./styles.css";
+
+const title = document.querySelector("body");
+
+function handleWindowResize() {
+  const size = window.innerWidth;
+  if (size > 1000) {
+    title.style.backgroundColor = "#F7CF1E";
+  } else if (size <= 1000 && size > 500) {
+    title.style.backgroundColor = "#AA67CC";
+  } else {
+    title.style.backgroundColor = "#61A7EC";
+  }
+}
+
+window.addEventListener("resize", handleWindowResize);
+
+
+<실습 2>
+
+const h2 = document.querySelector("h2");
+const colors = ["#1abc9c", "#3498db", "#9b59b6", "#f39c12", "#e74c3c"];
+
+const superEventHandler = {
+  handleEnter: function () {
+    h2.innerText = "The mouse is here!";
+    h2.style.color = colors[0];
+  },
+  handleLeave: function () {
+    h2.innerText = "The mouse is gone!";
+    h2.style.color = colors[1];
+  },
+  handleResize: function () {
+    h2.innerText = "You just resized!";
+    h2.style.color = colors[2];
+  },
+  handleSelect: function () {
+    h2.innerText = "You're selecting me!";
+    h2.style.color = colors[3];
+  },
+  handleContext: function () {
+    h2.innerHTML = "That was a right click!";
+    h2.style.color = colors[4];
+  }
+};
+
+h2.addEventListener("mouseenter", superEventHandler.handleEnter);
+h2.addEventListener("mouseleave", superEventHandler.handleLeave);
+window.addEventListener("resize", superEventHandler.handleResize);
+window.addEventListener("contextmenu", superEventHandler.handleContext);
+
