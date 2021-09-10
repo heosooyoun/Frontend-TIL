@@ -1,0 +1,177 @@
+CSS 속성- 배경 
+
+1. background  
+- 요소의 배경을 설정
+
+1.1 속성 값
+1) background-color: 배경 색상
+2) background-image: 하나 이상의 배경 이미지
+3) background-repeat: 배경 이미지의 반복
+4) background-position: 배경 이미지의 위치
+5) background-attachment: 배경 이미지의 스크롤 여부
+
+- 사용법: background: 색상 이미지경로 반복 위치 스크롤 특성;
+ex) background: red url(‘경로’) no-repeat left top scroll
+- 각 속성은 생략이 가능 하다
+
+2. background-color
+- 요소의 배경 색상을 지정 
+- 속성값: 색상, transparent(투명, 기본 값)
+
+3. background-image
+- 요소의 배경에 하나 이상의 이미지를 삽입
+- 속성값: none(기본값), url(“”)-> 이미지 경로
+- 사용법: background-image: url(“”), url(“”) ; -> url 함수를 여러 개 사용 가능
+
+4. background-repeat
+- 배경 이미지의 반복을 설정
+- 속성 값: repeat(배경 이미지를 수직, 수평으로 반복, 기본값), repeat-x(배경 이미지를 수평으로 반복), repeat-y(배경 이미지를 수직으로 반복), no-repeat(반복 없음)
+
+5. background-position
+- 배경 이미지의 위치를 설정
+
+5.1 속성값
+1) %: 왼쪽 상단 모서리는 0% 0%, 오른쪽 하단 모서리는 100% 100%, 기본값은 0% 0%
+2) 방향: 방향을 입력하여 위치 설정, top, bottom, left, right, center
+- 사용법: background-position: 방향1 방향 2;
+- 방향이 바뀌어도 가능( right bottom 이나 bottom right 나 동일) 
+3) 단위: px, cm, cm 등 
+
+- 값이 % 또는 단위인 경우 사용법
+- background-position: x축 y축; -> 이 경우는 방향과 달리 값이 바뀌면 안된다.
+
+- 단위와 방향을 섞어서 사용 가능 -> 단, x축 속성인 left, right는 첫 번째에, y축 속성인 top, bottom은 두 번째에 사용해야 한다. 
+
+6. background-attachment
+- 요소가 스크롤될 때 배경 이미지의 스크롤 여부(특성) 설정
+
+6.1 속성값
+1) scroll: 배경 이미지가 요소를 따라서 같이 스크롤 됨, 기본값
+2) fixed: 배경 이미지가 뷰포트에 고정되어, 요소와 같이 스크롤 되지 않음
+3) local: 요소 내 스크롤 시 배경이미지가 같이 스크롤 됨
+
+<실습- fixed를 이용한 스타벅스 홈페이지 구현>
+
+<section  class ="section1"></section >
+      <section  class ="section2"></section >
+      <section  class ="section3"></section >
+      <section  class ="section4"></section >
+      <section  class ="section5"></section >
+
+section {
+    height : 300px ;
+    border : 2px  dashed  lightgray ;
+}
+.section2 {
+    background-image : url ("https://www.starbucks.co.kr/common/img/main/fav_prod_bg_new.jpg");
+    background-size : auto  100%;
+    background-position : right  bottom ;
+    background-attachment : fixed ;
+}
+.section3 {
+    background-image : url ("https://www.starbucks.co.kr/common/img/main/reserve_bg.jpg");
+    background-size : auto  100%;
+    background-position : right  bottom ;
+    background-attachment : fixed ;
+}
+
+<실습- local>
+- 기본적으로 배경 이미지는 고정해 사용하는 건데 특정 요소 내부에 지역적으로 스크롤 할 때 배경 이미지를 동시에 스크롤 -> 거의 드물게 사용됨
+
+<div  class ="container">
+          <div  class ="for-scroll"></div >
+      </div >
+
+.container {
+    width : 400px ;
+    height : 300px ;
+    border : 4px  solid  lightseagreen ;
+    margin : 50px ;
+    overflow : auto ;
+    background-image : url ("../images/heropy.webp");
+    background-size : 50%;
+    background-attachment : local ;
+}
+.for-scroll {
+    height : 2000px ;
+} 
+
+
+7. backgroun-size
+- 배경 이미지의 크기를 지정
+
+7.1 속성값
+1) auto: 배경 이미지가 원래의 크기로 표시됨, 기본값
+2) 단위: px, em, % 등으로 지정, width or height로 입력 가능, width만 입력 시 비율에 맞게 지정된다.
+3) cover: 배경 이미지의 크기 비율을 유지하며 요소의 더 넓은 너비에 맞춰짐, 이미지가 잘릴 수 있음
+4) contain: 배경 이미지의 크기 비율을 유지하며 요소의 더 짧은 너비에 맞춰짐, 이미지가 잘리지 않음
+
+<실습>
+* 크기를 정확하게 모르는 경우는 비율에 맞게 출력하기 위해 가로 너비만 입력하는 것이 낫다.
+- 각각 cover, contain 실습 결과 -> conver은 더 넓은 가로 너비에 맞춰지고 contain은 더 짧은 세로 너비에 맞춰진다.
+---------------------------------------------------------------------------
+
+1. Transition
+- CSS 속성의 전환 효과를 지정
+- CSS 속성의 시작과 끝을 지정하고 중간값을 애니메이션을 입히는 것
+
+- 속성값
+1) transition-property: 전환 효과를 사용할 속성 이름, 기본값 all(전체 속성에 전환 효과를 넣을 수 있지만 특정 속성만 지정해서 넣을 수도 있다.)
+2) transition-duration: 전환 효과의 지속 시간 설정, 기본값 0s
+
+<실습>
+- 하나는 transition 단축속성을 사용, 다른 하나는 따로 나눠서 사용한 것
+
+.box {
+    width : 100px ;
+    height : 100px ;
+    background : olivedrab ;
+    margin : 50px ;
+    transition-property : width, background  ;
+    transition-duration : 1s ;
+}
+.box:hover {
+    width : 300px ;
+    background : dodgerblue ;
+}
+.box {
+    width : 100px ;
+    height : 100px ;
+    background : olivedrab ;
+    margin : 50px ;
+    transition : width 1s , background  1s ;
+}
+.box:hover {
+    width : 300px ;
+    background : dodgerblue ;
+}
+
+3) transition-timing-function: 타이밍 함수 지정, 기본값 ease
+- 타이밍 함수란 애니메이션을 빠르게 -> 느리게 순서로 할지, 일정하게 할지 등을 정의하는 함수
+4) transition-delay: 전환 효과의 대기시간 설정, 기본값 0s
+
+1.1 transition-property
+- 전환 효과를 사용할 속성 이름을 설정
+- 값: all(모든 속성에 적용, 기본값), 속성 이름(해당 속성에만 전환 효과 사용) 
+
+1.2 transition-duration
+- 전환 효과의 지속 시간을 설정
+- 값: 시간
+** 1s = 1000ms 로 바꿔서도 사용 가능 
+
+1.3 transition-timing-function
+- 타이밍 함수 지정
+- 타이밍 함수는 어떠한 그래프를 내부적으로 제공하는데, 이것을 애니메이션에 적용하는 것이다.
+- 값
+1) ease: 빠르게-> 느리게
+2) linear: 일정하게
+3) ease- in: 느리게 -> 빠르게
+4) ease-out: 빠르게-> 느리게
+5) ease-in-out: 느리게-> 빠르게-> 느리게
+6) cubic-bazier(n, n, n, n): 자신만의 값을 정의(0~1) 
+-> 위의 값들을 cubic-bazier을 이용해 표현할 수 있는데 그냥 명시적인 값으로 사용하는 것이 낫다(ease, linear 등)
+7) steps(n): n번 분할된 애니메이션
+
+1.4 transition-delay
+- 전환 효과가 몇 초 뒤에 시작할지 대기시간을 설정
+ex) transition: 2s 3s; 라고 입력 시 duration 2초, delay 3초라고 인식하게 된다.
