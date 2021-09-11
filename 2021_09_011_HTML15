@@ -1,0 +1,234 @@
+2. transform
+- 요소의 변환 효과(변형)를 지정
+- 비틀기, 전, 확대, 축소, 이동 등에 사용
+ex) transform: 원근법 이동 크기 회전 기울임;
+transform: rotate(20deg) translate(10px, 0);
+- transform 안에 다양한 함수들을 사용해 변환 효과를 줄 수 있다.(skew 비틀기, scale 확대)
+
+2.1 변환 2D 속성
+1) translate(x, y): x축, y축으로 이동(x, y 값 중 하나만 사용할 수 있음, translateX, translateY)
+2) scale(x, y): x축, y축으로 확대 및 축소(둘 중 하나만 사용 가능, sclaeX, scaleY)
+3) rotate(degree): 각도만큼 회전
+4) skew(x-deg, y-deg): x축, y축 만큼 기울임 또는 회전(둘 중 하나만 사용 가능, skewX, skewY) 
+5) matrix(n, n, n, n, n, n): 위의 4개를 아우르는 함수, 명시적으로 각각 사용하는 것이 좋음
+
+<실습 1>
+transform : rotate (45deg );
+
+<실습 2>
+transform : translate (100px , 30px );
+
+position으로 대체 가능
+ position : relative ;
+    left : 100px ;
+    top : 30px ;
+
+-> 요소를 이동하고 배치하면 끝나는 경우라면 position을 사용해도 되지만 요소가 실시간으로 변해야 한다면 translate가 적합
+-> position은 애니메이션에 적합하지 않음
+
+.box {
+    width : 100px ;
+    height : 100px ;
+    background : olivedrab ;
+    display : flex ;
+    justify-content : center ;
+    align-items : center ;
+    font-size : 30px ;
+    transition : 1s ;
+    
+}
+.box:hover {
+    position : relative ;
+    left : 100px ;
+    top : 30px ;
+}
+////////////////////////////////////////////
+.box {
+    width : 100px ;
+    height : 100px ;
+    background : olivedrab ;
+    display : flex ;
+    justify-content : center ;
+    align-items : center ;
+    font-size : 30px ;
+    transition : 1s ;
+    
+}
+.box:hover {
+    transform : translate (30px , 30px );
+}
+
+- 위쪽은 position을 이용한 것인데 깜빡거리고 자연스럽게 진행되지 않는다.
+- 위쪽 코드를 자연스럽게 하려면 .box 부분에 밑의 코드를 추가해서 초기화 해야하는데 적합하지 않은 방법이다.
+position : relative ;
+    left : 0px ;
+    top : 0px ;
+
+- 따라서 transform을 이용한 아래쪽 코드가 더 효율적이다.
+
+<실습 3>
+
+.box {
+    width : 100px ;
+    height : 100px ;
+    background : olivedrab ;
+    margin : 100px ;
+    display : flex ;
+    justify-content : center ;
+    align-items : center ;
+    font-size : 30px ;
+    transition : 1s ;
+    
+}
+.box:hover {
+    transform : scale (1.5 );
+}
+
+.box {
+    width : 100px ;
+    height : 100px ;
+    background : olivedrab ;
+    margin : 100px ;
+    display : flex ;
+    justify-content : center ;
+    align-items : center ;
+    font-size : 30px ;
+    transition : 1s ;
+    
+}
+.box:hover {
+    transform : scale (.5 );
+}
+
+- 각각 확대, 축소
+
+<실습 4>
+
+.box {
+    width : 100px ;
+    height : 100px ;
+    background : olivedrab ;
+    margin : 100px ;
+    display : flex ;
+    justify-content : center ;
+    align-items : center ;
+    font-size : 30px ;
+    transition : 1s ;
+    
+}
+.box:hover {
+    transform : skewX (45deg );
+}
+
+* transform 함수 안에 다양한 함수를 사용할 수 있다.
+transform : translate (20px , 10px ) skewX (45deg );
+
+
+3. 변환 3D 속성
+
+3.1 변환 3D 속성
+1) translate3d(x, y, z): x축, y축, z축으로 이동(translateZ: z축으로만 이동)
+2) scale3d(x, y, z): x축, y축, z축으로 확대 및 축소(scaleZ: z축으로 확대, 축소)
+3) rotate3d(z, y, z, a): x 벡터, y벡터, z벡터, 각도만큼 회전(rotateX, rotateY, rotateZ 사용 가능) -> rotateX, rotateY가 3차원이라는 것 알아두기
+4) perspective(n): 원근법(거리)
+5) matrix3d(인자 16개): 3차원 변환 효과, 명시적으로 각각 사용하는 것이 좋음
+
+<실습 1- translateZ>
+- z축은 우리의 눈과 같은 방향이기 때문에 보이지 않는 것
+- perspective 함수는 transform의 가장 앞에 선언되어야 한다.
+
+<transform 변환 속성>
+
+4. transform-origin
+- 요소 변환의 기준점을 설정
+- 값: x, y, z축(기본값: 정가운데) -> 단위를 넣어도 되고 left, right 등을 사용해도 된다.
+- 기본적으로 x, y축은 4사분면이다.
+
+5. transform-style
+- 3D 변환 요소의 자식 요소도 3D 변환을 사용할지 설정
+- 값: flat(자식 요소에 3D 변환을 사용하지 않음, 기본값), preserve-3d(자식 요소에 3D 변환을 사용)
+
+<실습>
+- 첫 번째 칸은 html
+- 두번째 칸은 transform-style: flat; 으로 하위 요소인 parent에 적용된 3d 변환이 적용되지 않는다.
+
+<div  class ="perspective">
+        <div  class ="grand-parent">
+            <div  class ="parent">
+                <img  src ="./images/heropy.webp" alt ="HEROPY">
+            </div >
+        </div >
+    </div >
+
+.perspective {
+    width : 200px ;
+    perspective : 500px ;
+    padding : 70px ;
+}
+.grand-parent {
+    width : 200px ;
+    border : 3px  solid  darkblue ;
+    transition : 1s ;
+    transform : rotateX (-45deg );
+}
+.parent {
+    width : 200px ;
+    border : 3px  solid  lightpink ;
+    transition : 1s ;
+    transform : rotateY (45deg );
+}
+img {
+    width : 200px ;
+}
+
+.perspective {
+    width : 200px ;
+    perspective : 500px ;
+    padding : 70px ;
+}
+.grand-parent {
+    width : 200px ;
+    border : 3px  solid  darkblue ;
+    transition : 1s ;
+    transform : rotateX (-45deg );
+    transform-style : preserve-3d ;
+}
+.parent {
+    width : 200px ;
+    border : 3px  solid  lightpink ;
+    transition : 1s ;
+    transform : rotateY (45deg );
+}
+img {
+    width : 200px ;
+}
+
+- 여기에 추가로 parent에도 transform-style: preserve-3d; 를 추가하고 img에 rotate를 하면 위의 그림과 같은 결과가 출력된다.
+
+.perspective {
+    width : 200px ;
+    perspective : 500px ;
+    padding : 70px ;
+}
+.grand-parent {
+    width : 200px ;
+    border : 3px  solid  darkblue ;
+    transition : 1s ;
+    transform : rotateX (-45deg );
+    transform-style : preserve-3d ;
+}
+.parent {
+    width : 200px ;
+    border : 3px  solid  lightpink ;
+    transition : 1s ;
+    transform : rotateY (45deg );
+    transform-style : preserve-3d ;
+}
+img {
+    width : 200px ;
+    border : 3px  solid  green ;
+    transition : 1s ;
+    transform : rotateX (45deg );
+}
+
+* preserve-3d 속성은 바로 밑 자식에게만 적용되는 것이기 때문에 손자 요소에게도 적용하려면 해당 부모 요소에 계속 명시해줘야 한다.
