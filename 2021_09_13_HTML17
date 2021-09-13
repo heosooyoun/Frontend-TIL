@@ -1,0 +1,227 @@
+Code SandBox 링크: https://codesandbox.io/s/2021-09-13-css-xfxve
+
+[애니메이션]
+1. 애니메이션 개요
+- transiton은 유저의 어떤 행동에 의해 발생(A->B: A 스타일에서 B스타일로 변하는 것)
+- animation은 유저의 행동이 없어도 어떤 행위가 일어나는 것(A->B->C ...: A 스타일에서 B스타일로, B에서 C로 그리고 그 이후의 변화까지 세트로 묶어서 계속 재생 + 바뀔 때 발생하는 time 까지 제어 가능)
+- animation은 다수의 스타일을 전환하는 애니메이션을 적용
+- 단축 속성: 여러 속성을 한번에 선언 
+  -> keyframes 으로 세트를 만들어 놓은 다음에 animation-name을 가져다 쓰는 것
+
+2. @keyframes
+- transition은 기본상태 -> 바뀐 상태 두 가지만 존재
+- 개발자가 애니메이션 중간의 특정 지점들을 거칠 수 있는 키프레임을 설정 -> 애니메이션 중간 절차 제어 가능
+ex) @keyframes 애니메이션 이름{
+	여러 스타일을 정의
+}
+  - 2가지의 애니메이션을 정의 할 때: from -> to 사용
+  - 2개 이상: % 사용
+
+<실습>
+.box {
+width : 100px ;
+height : 100px ;
+border : 10px solid rgb (66 , 186 , 226 );
+background-color : rgb (160 , 201 , 255 );
+border-radius : 30px ;
+animation : my-first-anima 5s infinite ;
+}
+@keyframes my-first-anima {
+ from {
+width : 100px ;
+ }
+ to {
+width : 200px ;
+ }
+}
+- animation에 alternate 속성 추가 시-> 원래는 늘어나는 것은 천천히 늘어나는데 줄어드는 건 확 줄어듬 -> alternate 속성 사용 시 줄어드는 것도 천천히 줄어든다.
+
+<실습- alternate 속성 사용x>
+.box {
+width : 100px ;
+height : 100px ;
+border : 10px solid rgb (66 , 186 , 226 );
+background-color : rgb (160 , 201 , 255 );
+border-radius : 30px ;
+animation : my-first-anima 5s infinite ;
+}
+@keyframes my-first-anima {
+ 0% {
+/* width: 100px; */
+ }
+ 50% {
+width : 300px ;
+ }
+ 100% {
+/* width: 100px; */
+ }
+}
+- width: 100px; 은 기본값이기 때문에 생략 가능
+
+/* 원래 애니메이션은 자동 재생이지만 마우스가 올라갔을 때 재생되도록 할 수도 있음 */
+.box:hover {
+animation : my-first-anima 5s infinite ;
+}
+- 원래 애니메이션은 자동재생이지만, 마우스가 올라갔을 때 재생되도록 만들 수 있다.
+
+3. animation-name, animation-duration
+ 1) animation-name
+  - transition property에 대응되는 속성
+  - @keyframes의 name에 해당
+  - animation-name 법칙: 대소문자 구분/숫자 가능/-or_ 사용 가능/전역 속성을 이름으로 할 수 없다(inherite, initial 등)
+  - 기본적으로는 상속 불가지만 inherite 등을 이용해 상속할 수 있다.
+
+ 2) animation-duration
+  - transition-duration과 같이 몇 초 동안 재생할 것인지를 지정
+  - 애니메이션의 한 사이클을 완료하는 데 걸리는 시간
+  - s/ms 사용 가능
+  - 음수값 불가능!!!
+
+4. animation-delay, animation-timing-function
+ 1) animation-delay
+  - 애니메이션이 시작할 시점을 지정-> 지연 시간을 지정할 수 있음
+  - 양수 값: 지정된 시간이 경과한 뒤 애니메이션 시작
+  - 음수 값: 즉시 시작 되지만 -1s라면 이미 1초 전에 애니메이션이 시작된 것처럼 진행됨
+
+ 2) animation-timing-function
+  - linear(일정 속도), ease(기본값/점점 빠르게), ease-in 등 사용 가능
+  - linear 보다는 ease/ease-out 으로 하는 것이 조금 더 자연스럽다
+
+<실습>
+
+div {
+width : 100px ;
+height : 100px ;
+border : 10px solid rgb (66 , 186 , 226 );
+border-radius : 30px ;
+}
+.box1 {
+background-color : rgb (160 , 201 , 255 );
+animation : my-first-anima 1s infinite ;
+}
+.box2 {
+background-color : rgb (179 , 134 , 206 );
+animation : my-first-anima 1s infinite ;
+animation-delay : 0.3s ;
+}
+.box3 {
+background-color : rgb (231 , 233 , 142 );
+animation : my-first-anima 1s infinite ;
+animation-delay : 0.6s ;
+}
+@keyframes my-first-anima {
+ 0% {
+font-size : 20px ;
+ }
+ 50% {
+width : 300px ;
+font-size : 40px ;
+ }
+ 100% {
+font-size : 20px ;
+ }
+}
+- 조금 더 깔끔한 코드가 되려면 box의 속성에 겹치는 
+animation : my-first-anima 1s infinite ;
+이 속성을 div에 넣어주면 된다.
+
+5. animation-iteration-count, animation-direction
+ 1) animation-iteration-count
+  - 재생 횟수: 숫자 만큼만 재생되도록 할 수 있다.
+  - values: infinity/숫자
+  - 기본값은 1(1번만 재생)
+  - 0.5라면 50%까지만 재생하고 끝
+  - transition에는 없는 속성(transition은 1번만 재생하니까!!)
+ 
+ 2) animation-direction
+  - transition에는 없는 속성(transition은 A,B가 지정되어 있음/어디에서 어디로 진행할지 고정)
+  - 애니메이션을 앞으로, 뒤로, 또는 번갈아 재생할 지를 결정
+  - Values: normal(기본값/정방향), reverse(거꾸로), alternate(왕복), alternate-reverse(거꾸로 왕복)
+
+<실습>
+div {
+width : 100px ;
+height : 100px ;
+border : 10px solid rgb (66 , 186 , 226 );
+border-radius : 30px ;
+background-color : rgb (112 , 221 , 175 );
+}
+.box1 {
+animation-name : rotate;
+animation-duration : 3s ;
+animation-timing-function : linear ;
+animation-iteration-count : infinity;
+animation-direction : reverse ;
+}
+@keyframes rotate {
+ from {
+transform : rotate (0 );
+ }
+ to {
+transform : rotate (360deg );
+ }
+}
+
+
+6. animation-play-state
+- Values: running(기본값), paused(일시정지)
+
+<실습>
+- 위의 코드와 거의 동일하고 일부분만 다름
+.box1 {
+animation-name : rotate;
+animation-duration : 3s ;
+animation-timing-function : linear ;
+animation-iteration-count : infinite ;
+animation-direction : reverse ;
+}
+.box1:hover {
+animation-play-state : paused ;
+}
+- 마우스를 박스에 올리면 일시 정지됨!
+
+7. animation-fill-mode
+- 애니메이션 실행 전과 후에 스타일 적용하는 법을 지정
+- Values
+  1) none: 기본값. 애니메이션은 실행되지 않을 때 대상에 스타일을 적용하지 않음
+   => 애니메이션이 실행될 때만 keyframes에 있는 스타일을 적용하겠다는 것
+  2) forwards: 끝난 모습의 keyframes를 유지(100%일때를 유지)
+  3) backwards: 시작 모습의 keyframes를 유지(0%일때를 유지)
+  4) both: forwards, backwards를 동시에 적용
+
+<실습>
+div {
+width : 100px ;
+height : 100px ;
+border : 10px solid rgb (66 , 186 , 226 );
+}
+.box1 {
+background-color : rgb (74 , 156 , 184 );
+animation : fill-mode 3s linear 1s ;
+}
+@keyframes fill-mode {
+ 0% {
+background-color : red ;
+ }
+ 50% {
+width : 200px ;
+ }
+ 100% {
+background-color : rgb (255 , 0 , 234 );
+ }
+}
+- 현재 상태
+ ① 기존 스타일: div, box1에 적용된 4가지(width/height/border/bgc)
+ ② keyframes 첫 번째 스타일: 0%일 때
+ ③ 진행중일 때 스타일
+ ④ keyframes 마지막 스타일: 100%일 때
+ ⑤ 기존 스타일: 맨 처음 기본 스타일로 돌아옴
+-> 4->5로 변하는 것을 제어하는 것!!
+
+- forwards로 설정 시: 4번에서 끝남(기존으로 돌아가지 x)
+- backwards로 설정 시: 시작을 2번부터 5번까지
+- both로 설정 시: 2번~4번
+
+8. animation(shorthand)
+** 복습할 때 여기만 봐도 될것 같음(종합적인 내용을 간단하게)
+- 시간 관련 속성이 2개라면 앞쪽이 duration, 뒤쪽이 delay(transition과 동일)
