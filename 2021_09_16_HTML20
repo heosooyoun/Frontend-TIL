@@ -1,0 +1,166 @@
+[오늘의 공부]
+- 리액트 공부 + 실습
+Code SandBox 링크 https://codesandbox.io/s/finalassignment1-f8q45
+
+[시계 구현- clock.js]
+const clockForm = document.querySelector(".clock-form"),
+  clock = clockForm.querySelector("h2");
+
+function getTime() {
+  const today = new Date();
+  const hours = today.getHours();
+  const minutes = today.getMinutes();
+
+  clock.innerText = `${hours < 10 ? `0${hours}` : hours}: ${
+    minutes < 10 ? `0${minutes}` : minutes
+  }`;
+}
+getTime();
+
+[배경 화면 구현- bg.js]
+const body = document.querySelector("body");
+
+const IMG_NUM = 3;
+
+function paintImg(imgNumber) {
+  const image = new Image();
+  image.src = `src/images/${imgNumber + 1}.jpg`;
+  image.classList.add("bg-image");
+  body.prepend(image);
+}
+
+function getRandom() {
+  const number = Math.floor(Math.random() * IMG_NUM);
+  return number;
+}
+
+function init() {
+  const randomNumber = getRandom();
+  paintImg(randomNumber);
+}
+
+init();
+
+[할일 목록 구현- todo.js]
+
+const toDoForm = document.querySelector(".js-toDoForm"),
+  toDoInput = toDoForm.querySelector("input"),
+  toDoList = document.querySelector(".js-toDoList");
+
+const TODOS_LS = "toDos";
+let toDos = [];
+
+function deletToDo(event) {
+  const btn = event.target;
+  const li = btn.parentNode;
+
+  toDoList.removeChild(li);
+
+  const cleanToDos = toDos.filter(function (toDo) {
+    return toDo.id !== parseInt(li.id);
+  });
+  toDos = cleanToDos;
+  saveToDos();
+}
+
+function saveToDos() {
+  //localstorage는 string만 저장 가능 하기 때문에 string으로 바꿔서 저장하는 것
+  //stringify는 object를 string으로 변환해줌
+  localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
+}
+
+function paintToDo(text) {
+  const li = document.createElement("li");
+  const delBtn = document.createElement("button");
+  const span = document.createElement("span");
+  const newId = toDos.length + 1;
+
+  delBtn.innerHTML = "❌";
+  delBtn.addEventListener("click", deletToDo);
+  span.innerText = text;
+
+  li.appendChild(span);
+  li.appendChild(delBtn);
+
+  li.id = newId;
+
+  toDoList.appendChild(li);
+
+  const toDoObj = {
+    text: text,
+    id: newId
+  };
+  toDos.push(toDoObj);
+  saveToDos();
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  const currentValue = toDoInput.value;
+  paintToDo(currentValue);
+  toDoInput.value = "";
+}
+
+function loadToDos() {
+  const loadToDos = localStorage.getItem(TODOS_LS);
+
+  if (loadToDos !== null) {
+    const parsedToDos = JSON.parse(loadToDos);
+    parsedToDos.forEach(function (toDo) {
+      paintToDo(toDo.text);
+    });
+  }
+}
+
+function init() {
+  loadToDos();
+  toDoForm.addEventListener("submit", handleSubmit);
+}
+
+init();
+
+[이름 출력- getting.js]
+const form = document.querySelector(".js-form"),
+  input = form.querySelector("input"),
+  greeting = document.querySelector(".js-greetings");
+
+const USER_LS = "currentUser",
+  SHOWING_CN = "showing";
+
+function saveName(text) {
+  localStorage.setItem(USER_LS, text);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  const currentValue = input.value;
+  paintGreeting(currentValue);
+  saveName(currentValue);
+}
+
+function askForName() {
+  form.classList.add(SHOWING_CN);
+  form.addEventListener("submit", handleSubmit);
+}
+
+function paintGreeting(text) {
+  form.classList.remove(SHOWING_CN);
+  greeting.classList.add(SHOWING_CN);
+  greeting.innerText = `Hello ${text}`;
+}
+
+function loadName() {
+  const currentUser = localStorage.getItem(USER_LS);
+
+  if (currentUser === null) {
+    askForName();
+  } else {
+    paintGreeting(currentUser);
+  }
+}
+
+function init() {
+  loadName();
+}
+
+init();
