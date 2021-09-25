@@ -1,0 +1,170 @@
+리액트를 이용해서 코인의 정보를 불러오는 프로젝트를 실습해 보았습니다.
+(현재 프로젝트의 중간까지 진행)
+
+[Coin.js]
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+
+const Container = styled.div``;
+
+const Ranking = styled.span`
+  font-weight: 600;
+`;
+
+const Coin = ({ name, symbol, rank }) => (
+  <Container>
+    <Ranking>#{rank}</Ranking> {name}/{symbol}
+  </Container>
+);
+
+Coin.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  symbol: PropTypes.string.isRequired,
+  rank: PropTypes.number.isRequired
+};
+
+export default Coin;
+
+
+[Router.js]
+import React from "react";
+import { HashRouter as Router, Route } from "react-router-dom";
+import Header from "./Header";
+import Coins from "../Screens/Coins";
+import Exchanges from "../Screens/Exchanges";
+import Prices from "../Screens/Prices";
+
+export default () => {
+  return (
+    <Router>
+      <Header />
+      <Route path="/" exact component={Prices} />
+      <Route path="/exchanges" component={Exchanges} />
+      <Route path="/coins" component={Coins} />
+    </Router>
+  );
+};
+
+
+[Price.js]
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+
+const Container = styled.div`
+  margin-bottom: 10px;
+`;
+
+const Price = ({ name, symbol, quotes }) => (
+  <Container>
+    {name} / {symbol}: ${quotes.USD.price}
+  </Container>
+);
+
+Price.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  symbol: PropTypes.string.isRequired,
+  quotes: PropTypes.shape({
+    USD: PropTypes.shape({
+      price: PropTypes.number.isRequired
+    }).isRequired
+  }).isRequired
+};
+
+export default Price;
+
+
+[Header.js]
+import React from "react";
+import { Link, withRouter } from "react-router-dom";
+import styled from "styled-components";
+
+const Header = styled.header`
+  margin-bottom: 30px;
+`;
+const List = styled.ul`
+  display: flex;
+`;
+const Item = styled.li`
+  margin-right: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: ${props => (props.selected ? "white" : "black")};
+  background-color: ${props => (props.selected ? "#f1c40f" : "white")};
+`;
+
+export default withRouter(({ location: { pathname } }) => (
+  <Header>
+    <List>
+      <Item selected={pathname === "/"}>
+        <Link to="/">Prices</Link>
+      </Item>
+      <Item selected={pathname === "/exchanges"}>
+        <Link to="/exchanges">Exchanges</Link>
+      </Item>
+      <Item selected={pathname === "/coins"}>
+        <Link to="/coins">Coins</Link>
+      </Item>
+    </List>
+  </Header>
+));
+
+
+[Loeader.js]
+import React from "react";
+
+export default () => <h3>Loading...</h3>;
+
+
+[Exchange.js]
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+
+const Container = styled.div`
+  margin-bottom: 50px;
+`;
+
+const Name = styled.span`
+  font-weight: 600;
+  display: block;
+  margin-bottom: 10px;
+`;
+
+const Links = styled.div`
+  margin-top: 15px;
+`;
+
+const Link = styled.a`
+  text-decoration: underline;
+`;
+
+const Exchange = ({ name, description, links }) => (
+  <Container>
+    <Name>{name}</Name>
+    {description && `${description.substring(0, 80)}...`}
+    <Links>
+      {links &&
+        links.website &&
+        links.website.map((w, i) => (
+          <Link key={i} href={w}>
+            {w}
+          </Link>
+        ))}
+    </Links>
+  </Container>
+);
+
+Exchange.propTypes = {
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  links: PropTypes.shape({
+    website: PropTypes.arrayOf(PropTypes.string.isRequired)
+  })
+};
+
+export default Exchange;
+
