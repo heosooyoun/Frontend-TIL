@@ -1,0 +1,157 @@
+[어제에 이어서 코인의 정보를 불러오는 프로젝트 진행]
+
+[CoinContainer.js]
+
+import React from "react";
+import CoinsPresenter from "./CoinsPresenter";
+import { getCoins } from "../../api";
+
+export default class extends React.Component {
+  state = {
+    loading: true,
+    coins: []
+  };
+  getCoins = async () => {
+    try {
+      const { data: coins } = await getCoins();
+      this.setState({
+        coins
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
+  componentDidMount() {
+    this.getCoins();
+  }
+  render() {
+    return <CoinsPresenter {...this.state} />;
+  }
+}
+
+
+[ConinPresenter.js]
+
+import React from "react";
+import PropTypes from "prop-types";
+import Loader from "../../Components/Loader";
+import Coin from "../../Components/Coin";
+
+const CoinsPresenter = ({ loading, coins }) =>
+  loading ? (
+    <Loader />
+  ) : (
+    coins
+      .filter(coin => coin.rank !== 0)
+      .sort((first, second) => first.rank - second.rank)
+      .map(coin => <Coin key={coin.id} {...coin} />)
+  );
+
+CoinsPresenter.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  coins: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      symbol: PropTypes.string.isRequired,
+      rank: PropTypes.number.isRequired
+    }).isRequired
+  ).isRequired
+};
+
+export default CoinsPresenter;
+
+
+[ExchangeContainer.js]
+
+import React from "react";
+import ExchangesPresenter from "./ExchangesPresenter";
+import { getExchanges } from "../../api";
+
+export default class extends React.Component {
+  state = {
+    loading: true,
+    exchanges: []
+  };
+  getExchanges = async () => {
+    try {
+      const { data: exchanges } = await getExchanges();
+      this.setState({ exchanges });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
+  componentDidMount() {
+    this.getExchanges();
+  }
+  render() {
+    return <ExchangesPresenter {...this.state} />;
+  }
+}
+
+
+[ExchangePresenter.js]
+
+import React from "react";
+import PropTypes from "prop-types";
+import Loader from "../../Components/Loader";
+import Exchange from "../../Components/Exchange";
+
+const ExchangesPresenter = ({ loading, exchanges }) =>
+  loading ? (
+    <Loader />
+  ) : (
+    exchanges.map((exchange) => <Exchange key={exchange.id} {...exchange} />)
+  );
+
+ExchangesPresenter.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  exchanges: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      links: PropTypes.shape({
+        website: PropTypes.arrayOf(PropTypes.string.isRequired)
+      })
+    }).isRequired
+  ).isRequired
+};
+
+export default ExchangesPresenter;
+
+
+[PriceContainer.js]
+
+import React from "react";
+import PricesPresenter from "./PricesPresenter";
+import { getPrices } from "../../api";
+
+export default class extends React.Component {
+  state = {
+    loading: true,
+    prices: []
+  };
+  componentDidMount() {
+    this.getPrices();
+  }
+  getPrices = async () => {
+    try {
+      const { data: prices } = await getPrices();
+      this.setState({
+        prices
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
+  render() {
+    return <PricesPresenter {...this.state} />;
+  }
+}
