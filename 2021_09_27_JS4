@@ -1,0 +1,133 @@
+[코인 정보 불러와서 정리해서 출력하는 프로젝트 마저 하기 -> 이해가 잘 안되는 부분이 많아 많이 하지는 못했음ㅠㅠ]
+
+
+[PricePresenter.js]
+
+import React from "react";
+import PropTypes from "prop-types";
+import Loader from "../../Components/Loader";
+import Price from "../../Components/Price";
+
+const PricesPresenter = ({ loading, prices }) =>
+  loading ? (
+    <Loader />
+  ) : (
+    prices.map(price => <Price key={price.id} {...price} />)
+  );
+
+PricesPresenter.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  prices: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      symbol: PropTypes.string.isRequired,
+      quotes: PropTypes.shape({
+        USD: PropTypes.shape({
+          price: PropTypes.number.isRequired
+        }).isRequired
+      }).isRequired
+    }).isRequired
+  ).isRequired
+};
+
+export default PricesPresenter;
+
+
+[Router.js]
+
+import React from "react";
+import { HashRouter as Router, Route } from "react-router-dom";
+import Header from "./Header";
+import Coins from "../Screens/Coins";
+import Exchanges from "../Screens/Exchanges";
+import Prices from "../Screens/Prices";
+
+export default () => {
+  return (
+    <Router>
+      <Header />
+      <Route path="/" exact component={Prices} />
+      <Route path="/exchanges" component={Exchanges} />
+      <Route path="/coins" component={Coins} />
+    </Router>
+  );
+};
+
+
+[Exchange.js]
+
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+
+const Container = styled.div`
+  margin-bottom: 50px;
+`;
+
+const Name = styled.span`
+  font-weight: 600;
+  display: block;
+  margin-bottom: 10px;
+`;
+
+const Links = styled.div`
+  margin-top: 15px;
+`;
+
+const Link = styled.a`
+  text-decoration: underline;
+`;
+
+const Exchange = ({ name, description, links }) => (
+  <Container>
+    <Name>{name}</Name>
+    {description && `${description.substring(0, 80)}...`}
+    <Links>
+      {links &&
+        links.website &&
+        links.website.map((w, i) => (
+          <Link key={i} href={w}>
+            {w}
+          </Link>
+        ))}
+    </Links>
+  </Container>
+);
+
+Exchange.propTypes = {
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  links: PropTypes.shape({
+    website: PropTypes.arrayOf(PropTypes.string.isRequired)
+  })
+};
+
+export default Exchange;
+
+
+[Style.js]
+
+import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
+
+const globalStyles = createGlobalStyle`
+    ${reset};
+    a{
+        text-decoration:none;
+        color:inherit;
+    }
+    *{
+        box-sizing:border-box;
+    }
+    body{
+        font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        padding:30px;
+    }
+    h1 {
+      font-size:32px;
+      margin-bottom:30px;
+    }
+`;
+
+export default globalStyles;
