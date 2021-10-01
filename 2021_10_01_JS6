@@ -1,0 +1,116 @@
+[todo list 만들어보기]
+
+[잘 못 입력한 할일 제거]
+function deletFtoDo(event) {
+  const btn = event.target;
+  const li = btn.parentNode;
+
+  finishedList.removeChild(li);
+  const cleanFinished = finished.filter(function (toDo) {
+    return toDo.id !== parseInt(li.id);
+  });
+  finished = cleanFinished;
+  saveToDos();
+}
+
+
+[할 일 저장]
+
+function saveToDos() {
+  localStorage.setItem(PENDING_LS, JSON.stringify(pending));
+  localStorage.setItem(FINISHED_LS, JSON.stringify(finished));
+}
+
+
+[해야할 일 목록 출력]
+
+function printPList(text) {
+  const li = document.createElement("li");
+  const delBtn = document.createElement("button");
+  const span = document.createElement("span");
+  const checkBtn = document.createElement("button");
+  const newId = pending.length + 1;
+
+  delBtn.innerHTML = "❌";
+  delBtn.addEventListener("click", deletPtoDo);
+  checkBtn.innerHTML = "✅";
+  checkBtn.addEventListener("click", moveToFinished);
+  span.innerText = text;
+
+  li.appendChild(span);
+  li.appendChild(delBtn);
+  li.appendChild(checkBtn);
+  li.id = newId;
+  pendingList.appendChild(li);
+
+  const toDoObj = {
+    text: text,
+    id: newId
+  };
+  pending.push(toDoObj);
+  saveToDos();
+}
+
+[끝낸 할일을 출력하는 ]
+
+function printFList(text) {
+  const li = document.createElement("li");
+  const delBtn = document.createElement("button");
+  const span = document.createElement("span");
+  const checkBtn = document.createElement("button");
+  const newId = finished.length + 1;
+
+  delBtn.innerHTML = "❌";
+  delBtn.addEventListener("click", deletFtoDo);
+  checkBtn.innerHTML = "⏪";
+  checkBtn.addEventListener("click", moveToPending);
+  span.innerText = text;
+
+  li.appendChild(span);
+  li.appendChild(delBtn);
+  li.appendChild(checkBtn);
+  li.id = newId;
+  finishedList.appendChild(li);
+
+  const toDoObj = {
+    text: text,
+    id: newId
+  };
+  finished.push(toDoObj);
+  saveToDos();
+}
+
+[버튼을 다루는 함수]
+function handleSubmit(event) {
+  event.preventDefault();
+  const currentValue = todoInput.value;
+  printPList(currentValue);
+  todoInput.value = "";
+}
+
+[리스트를 출력하는 함수- 해야할일을 출력 or 끝낸 일을 출력]
+function loadToDos() {
+  const loadPList = localStorage.getItem(PENDING_LS);
+  const loadFList = localStorage.getItem(FINISHED_LS);
+
+  if (loadPList !== null) {
+    const parsedPTodos = JSON.parse(loadPList);
+    parsedPTodos.forEach(function (toDo) {
+      printPList(toDo.text);
+    });
+  }
+
+  if (loadFList !== null) {
+    const parsedFTodos = JSON.parse(loadFList);
+    parsedFTodos.forEach(function (toDo) {
+      printFList(toDo.text);
+    });
+  }
+}
+
+//시작 함수
+function init() {
+  loadToDos();
+  todoForm.addEventListener("submit", handleSubmit);
+}
+init();
